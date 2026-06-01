@@ -3,182 +3,405 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RebootAI | AI Automation & Operations</title>
+<title>RebootAI | Autonomous Intelligence</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 <style>
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#0f172a;
-    color:white;
-    line-height:1.6;
-}
+    :root {
+        --primary: #00f5ff;
+        --accent: #ff00ff;
+        --secondary: #7b00ff;
+        --bg: #0a0a14;
+        --glass: rgba(15, 20, 45, 0.92);
+        --text: #e0f0ff;
+    }
 
-header{
-    text-align:center;
-    padding:100px 20px;
-    background:linear-gradient(135deg,#0f172a,#1e293b);
-}
+    [data-theme="light"] {
+        --primary: #00aaff;
+        --accent: #ff0088;
+        --secondary: #6600ff;
+        --bg: #f0f4ff;
+        --glass: rgba(255,255,255,0.95);
+        --text: #1a1a2e;
+    }
 
-h1{
-    font-size:4rem;
-    margin-bottom:10px;
-}
+    * { margin:0; padding:0; box-sizing:border-box; }
+    
+    body {
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.7;
+        transition: all 0.6s ease;
+    }
 
-.subtitle{
-    font-size:1.3rem;
-    color:#94a3b8;
-}
+    #particles { position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; opacity:0.65; }
 
-.btn{
-    display:inline-block;
-    margin-top:25px;
-    padding:12px 24px;
-    background:#2563eb;
-    color:white;
-    text-decoration:none;
-    border-radius:8px;
-}
+    .navbar {
+        position: fixed;
+        top: 0; width: 100%;
+        padding: 18px 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        backdrop-filter: blur(16px);
+        background: rgba(10, 10, 20, 0.85);
+    }
 
-section{
-    max-width:1100px;
-    margin:auto;
-    padding:70px 20px;
-}
+    .logo {
+        font-size: 2.1rem;
+        font-weight: 800;
+        letter-spacing: -2px;
+        background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
 
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
-}
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { color: var(--text); text-decoration: none; font-weight: 500; transition: color 0.4s; }
+    .nav-links a:hover { color: var(--primary); }
 
-.card{
-    background:#1e293b;
-    padding:25px;
-    border-radius:12px;
-}
+    header {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background: linear-gradient(135deg, var(--bg), #1a1a2e);
+    }
 
-.card h3{
-    color:#60a5fa;
-}
+    h1 {
+        font-size: 6.2rem;
+        font-weight: 900;
+        letter-spacing: -3px;
+        background: linear-gradient(90deg, #ffffff, var(--primary), var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
 
-.project{
-    background:#111827;
-    padding:20px;
-    margin-bottom:15px;
-    border-radius:10px;
-}
+    .subtitle { font-size: 1.65rem; margin: 25px 0 45px; color: #a0b8ff; }
 
-footer{
-    text-align:center;
-    padding:40px;
-    color:#94a3b8;
-}
+    .btn {
+        padding: 17px 45px;
+        background: linear-gradient(45deg, var(--primary), var(--accent), var(--secondary));
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.15rem;
+        cursor: pointer;
+        box-shadow: 0 0 35px rgba(0, 245, 255, 0.5);
+        transition: all 0.4s;
+    }
+    .btn:hover {
+        transform: translateY(-8px) scale(1.06);
+        box-shadow: 0 0 60px rgba(255, 0, 255, 0.6);
+    }
+
+    section { padding: 120px 5%; max-width: 1350px; margin: auto; }
+    h2 {
+        font-size: 3.4rem;
+        text-align: center;
+        margin-bottom: 75px;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 32px; }
+
+    .card {
+        background: var(--glass);
+        border-radius: 22px;
+        padding: 38px 32px;
+        border: 1px solid rgba(0, 245, 255, 0.25);
+        transition: all 0.5s ease;
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    .card.visible { opacity: 1; transform: translateY(0); }
+    .card:hover {
+        border-color: var(--accent);
+        box-shadow: 0 30px 60px rgba(123, 0, 255, 0.3);
+        transform: translateY(-22px);
+    }
+
+    .pricing-card.popular {
+        border: 3px solid var(--accent);
+        box-shadow: 0 0 40px rgba(255, 0, 255, 0.3);
+    }
 </style>
 </head>
 
-<body>
+<body data-theme="dark">
 
-<header>
-<h1>🚀 RebootAI</h1>
-<p class="subtitle">
-AI Automation • AI Operations • Cloud & DevOps Solutions
-</p>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">REBOOT<span style="color:#ff00ff;">AI</span></div>
+        <div class="nav-links" id="navLinks">
+            <a href="#services">Services</a>
+            <a href="#projects">Projects</a>
+            <a href="#testimonials">Testimonials</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#connect">Contact</a>
+            <button onclick="toggleTheme()" style="background:none;border:none;color:inherit;font-size:1.6rem;cursor:pointer;">
+                <i class="fas fa-moon" id="themeIcon"></i>
+            </button>
+        </div>
+        <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
+    </nav>
 
-<a class="btn" href="https://github.com/CloudOpsAi">
-View Projects
-</a>
-</header>
+    <!-- Hero -->
+    <header>
+        <canvas id="particles"></canvas>
+        <div>
+            <h1>REBOOT<span style="color:#ff00ff;">AI</span></h1>
+            <p class="subtitle" id="typing"></p>
+            <a href="#connect" class="btn">Launch Your AI Journey</a>
+        </div>
+    </header>
 
-<section>
-<h2>What We Build</h2>
+    <!-- Services -->
+    <section id="services">
+        <h2>Intelligent Systems</h2>
+        <div class="grid" id="servicesGrid"></div>
+    </section>
 
-<div class="grid">
+    <!-- Projects -->
+    <section id="projects">
+        <h2>Featured Creations</h2>
+        <div class="grid">
+            <div class="card"><h3>ExtremeViper</h3><p>Multi-broker trading platform with AI-driven risk intelligence.</p></div>
+            <div class="card"><h3>Hermes AI</h3><p>Autonomous VPS operations assistant with real-time awareness.</p></div>
+            <div class="card"><h3>Telegram Control Layer</h3><p>Natural language infrastructure management via Telegram.</p></div>
+        </div>
+    </section>
 
-<div class="card">
-<h3>AI Agents</h3>
-<p>
-Custom AI assistants, autonomous workflows,
-and productivity systems.
-</p>
-</div>
+    <!-- Stats -->
+    <section style="background: rgba(20, 10, 40, 0.6);">
+        <div style="display:flex;justify-content:center;gap:70px;flex-wrap:wrap;margin:60px 0;" class="stats">
+            <div><h3 id="stat1" style="font-size:3.2rem;">50</h3><p>AI Agents Live</p></div>
+            <div><h3 id="stat2" style="font-size:3.2rem;">120</h3><p>Automations Delivered</p></div>
+            <div><h3 id="stat3" style="font-size:3.2rem;">99.7</h3><p>% Uptime</p></div>
+        </div>
+    </section>
 
-<div class="card">
-<h3>n8n Automation</h3>
-<p>
-Workflow automation connecting APIs,
-email, cloud services and AI.
-</p>
-</div>
+    <!-- Testimonials -->
+    <section id="testimonials">
+        <h2>What Our Clients Say</h2>
+        <div class="testimonial-slider" style="max-width:820px;margin:auto;position:relative;">
+            <div class="slides" id="slides" style="display:flex;transition:transform 0.6s ease;">
+                <div class="slide" style="min-width:100%;padding:40px;background:var(--glass);border-radius:22px;text-align:center;">
+                    <p>"RebootAI delivered beyond expectations. Their systems are truly autonomous."</p>
+                    <strong>— Marcus Chen, TradeForge</strong>
+                </div>
+                <div class="slide" style="min-width:100%;padding:40px;background:var(--glass);border-radius:22px;text-align:center;">
+                    <p>"Hermes AI is revolutionary for our operations. Best investment this year."</p>
+                    <strong>— Dr. Lena Voss, NeuralDynamics</strong>
+                </div>
+            </div>
+            <button onclick="prevSlide()" style="position:absolute;left:10px;top:50%;background:none;border:none;font-size:2.5rem;color:var(--primary);">‹</button>
+            <button onclick="nextSlide()" style="position:absolute;right:10px;top:50%;background:none;border:none;font-size:2.5rem;color:var(--primary);">›</button>
+        </div>
+    </section>
 
-<div class="card">
-<h3>DevOps & Cloud</h3>
-<p>
-Docker, VPS hosting, Linux administration,
-CI/CD and infrastructure automation.
-</p>
-</div>
+    <!-- Pricing -->
+    <section id="pricing">
+        <h2>Choose Your Power Level</h2>
+        <div class="grid">
+            <div class="card pricing-card">
+                <h3>Starter</h3>
+                <h2 style="font-size:2.8rem;margin:15px 0;">$1,499<span style="font-size:1rem;">/mo</span></h2>
+                <ul style="text-align:left;margin:20px 0;list-style:none;">
+                    <li>✓ Basic AI Agent</li>
+                    <li>✓ n8n Workflows</li>
+                    <li>✓ Basic Monitoring</li>
+                </ul>
+                <button class="btn">Get Started</button>
+            </div>
+            <div class="card pricing-card popular">
+                <h3>Professional</h3>
+                <h2 style="font-size:2.8rem;margin:15px 0;">$3,499<span style="font-size:1rem;">/mo</span></h2>
+                <ul style="text-align:left;margin:20px 0;list-style:none;">
+                    <li>✓ Advanced AI Agents</li>
+                    <li>✓ Full Automation Suite</li>
+                    <li>✓ VPS + DevOps</li>
+                    <li>✓ Priority Support</li>
+                </ul>
+                <button class="btn">Most Popular</button>
+            </div>
+            <div class="card pricing-card">
+                <h3>Enterprise</h3>
+                <h2 style="font-size:2.8rem;margin:15px 0;">Custom</h2>
+                <ul style="text-align:left;margin:20px 0;list-style:none;">
+                    <li>✓ Custom AI Solutions</li>
+                    <li>✓ Dedicated Team</li>
+                    <li>✓ 24/7 AIOps</li>
+                    <li>✓ Full Integration</li>
+                </ul>
+                <button class="btn">Contact Sales</button>
+            </div>
+        </div>
+    </section>
 
-<div class="card">
-<h3>AI Operations</h3>
-<p>
-Monitoring, deployment, scaling and
-operational support for AI systems.
-</p>
-</div>
+    <!-- Contact -->
+    <section id="connect">
+        <h2>Let's Reboot Intelligence Together</h2>
+        <form id="contactForm" style="max-width:700px;margin:40px auto;display:grid;gap:22px;">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <textarea id="message" rows="6" placeholder="Your vision or project..." required></textarea>
+            <button type="submit" class="btn">Send Transmission</button>
+        </form>
+    </section>
 
-</div>
-</section>
+    <footer style="text-align:center;padding:80px 20px;background:#0a0a14;color:#8899bb;">
+        © 2026 RebootAI • Autonomous Intelligence Engineering
+    </footer>
 
-<section>
-<h2>Featured Projects</h2>
+    <script>
+        // Dynamic Color Cycle (Medium Speed)
+        let hue = 180;
+        function updateDynamicColors() {
+            hue = (hue + 0.15) % 360; // Medium speed
+            document.documentElement.style.setProperty('--primary', `hsl(${hue}, 100%, 68%)`);
+            document.documentElement.style.setProperty('--accent', `hsl(${(hue + 160) % 360}, 100%, 65%)`);
+        }
 
-<div class="project">
-<h3>ExtremeViper</h3>
-<p>
-Multi-broker trading automation platform with
-risk management and intelligent execution.
-</p>
-</div>
+        // Typing Effect
+        let texts = ["Autonomous AI Systems", "Intelligent Automation", "Future-Proof Operations"];
+        let count = 0, index = 0;
+        function type() {
+            const el = document.getElementById('typing');
+            el.textContent = texts[count].slice(0, ++index);
+            if (index === texts[count].length) {
+                count = (count + 1) % texts.length;
+                index = 0;
+                setTimeout(type, 2400);
+            } else setTimeout(type, 55);
+        }
 
-<div class="project">
-<h3>Hermes AI VPS Assistant</h3>
-<p>
-Always-on AI operations assistant running on VPS infrastructure.
-</p>
-</div>
+        // Particles
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let particlesArray = [];
 
-<div class="project">
-<h3>Telegram Infrastructure Control</h3>
-<p>
-Remote management and automation of cloud servers using Telegram.
-</p>
-</div>
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 0.6;
+                this.speedX = Math.random() * 0.6 - 0.3;
+                this.speedY = Math.random() * 0.6 - 0.3;
+            }
+            update() { this.x += this.speedX; this.y += this.speedY; }
+            draw() {
+                ctx.fillStyle = `hsl(${hue}, 100%, 70%)`;
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = ctx.fillStyle;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
 
-</section>
+        function initParticles() {
+            particlesArray = [];
+            for (let i = 0; i < 160; i++) particlesArray.push(new Particle());
+        }
 
-<section>
-<h2>Connect</h2>
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particlesArray.forEach(p => { p.update(); p.draw(); });
+            updateDynamicColors();
+            requestAnimationFrame(animate);
+        }
 
-<p>
-GitHub:
-<a style="color:#60a5fa;" href="https://github.com/CloudOpsAi">
-github.com/CloudOpsAi
-</a>
-</p>
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('themeIcon');
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.setAttribute('data-theme', 'light');
+                icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
 
-<p>
-Email:
-<a style="color:#60a5fa;" href="mailto:00000">
-xoxoxo
-</a>
-</p>
+        // Stats Counter
+        function animateStats() {
+            const targets = [
+                {id:'stat1', end:50, suffix:'+'},
+                {id:'stat2', end:120, suffix:'+'},
+                {id:'stat3', end:99.7, suffix:''}
+            ];
+            targets.forEach(t => {
+                let current = 0;
+                const step = t.end / 80;
+                const interval = setInterval(() => {
+                    current += step;
+                    if (current >= t.end) {
+                        current = t.end;
+                        clearInterval(interval);
+                    }
+                    document.getElementById(t.id).textContent = current.toFixed(t.id==='stat3'?1:0) + t.suffix;
+                }, 30);
+            });
+        }
 
-</section>
+        // Simple Slider
+        let currentSlide = 0;
+        function showSlide(n) {
+            document.getElementById('slides').style.transform = `translateX(-${n * 100}%)`;
+        }
+        function nextSlide() { currentSlide = (currentSlide + 1) % 2; showSlide(currentSlide); }
+        function prevSlide() { currentSlide = (currentSlide - 1 + 2) % 2; showSlide(currentSlide); }
 
-<footer>
-© 2026 RebootAI • AI Automation & Operations
-</footer>
+        // Contact Form
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert("Message received! The RebootAI team will contact you soon. 🚀");
+            this.reset();
+        });
 
+        // Mobile Menu
+        document.getElementById('hamburger').addEventListener('click', () => {
+            const nav = document.getElementById('navLinks');
+            nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+            nav.style.flexDirection = 'column';
+            nav.style.position = 'absolute';
+            nav.style.top = '75px';
+            nav.style.left = '0';
+            nav.style.width = '100%';
+            nav.style.background = 'var(--bg)';
+            nav.style.padding = '20px';
+        });
+
+        // Initialize
+        window.onload = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+            animate();
+            type();
+            animateStats();
+
+            // Populate Services
+            document.getElementById('servicesGrid').innerHTML = `
+                <div class="card"><i class="fas fa-robot" style="font-size:3rem;margin-bottom:20px;"></i><h3>Autonomous AI Agents</h3><p>Self-learning assistants that handle complex workflows.</p></div>
+                <div class="card"><i class="fas fa-bolt" style="font-size:3rem;margin-bottom:20px;"></i><h3>n8n + AI Automation</h3><p>Seamless integration across APIs and services.</p></div>
+                <div class="card"><i class="fas fa-cloud" style="font-size:3rem;margin-bottom:20px;"></i><h3>DevOps & Cloud</h3><p>Scalable, secure infrastructure automation.</p></div>
+                <div class="card"><i class="fas fa-shield-alt" style="font-size:3rem;margin-bottom:20px;"></i><h3>AI Operations</h3><p>Monitoring, scaling & 24/7 system support.</p></div>
+            `;
+        };
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        });
+    </script>
 </body>
 </html>
